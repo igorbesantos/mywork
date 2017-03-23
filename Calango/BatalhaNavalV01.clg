@@ -1,0 +1,167 @@
+algoritmo batalhaNaval;
+// Síntese
+//  Objetivo:  Jogo Batalha Naval simplista
+//  Entrada :
+//  Saída   :
+
+
+principal
+	// Declarações
+	texto nomeJogador;
+	texto exib[9]; //exibição
+	inteiro tabuleiro[9];
+	inteiro pontos, totalInimigos;
+	inteiro a, a2; //auxiliar
+	logico isValido, isOver;
+	
+	// Instruções
+	
+	escreva("Nome do Jogador: ");
+	leia(nomeJogador);
+
+
+	
+	//Configurando o Jogo
+	pontos=0;
+	isOver = falso;
+	totalInimigos = 0;
+	para(a de 0 ate 8 passo 1)faca
+			tabuleiro[a] = aleatorio(2);
+			se(tabuleiro[a]==1)entao
+				totalInimigos = totalInimigos + 1;
+			fimSe
+	//		escreval(a," = ",tabuleiro[a]); //- Informações Log
+	fimPara
+
+	para(a de 0 ate 8 passo 1)faca
+		exib[a]= "███";
+	fimPara
+
+	
+
+
+
+	//Inicia o Jogo
+	faca
+		//Construindo Tela
+		limpaTela();
+		constroiTela(exib, nomeJogador, pontos);
+		
+		//Lê o comando
+		faca
+			isValido = verdadeiro;
+			escreva("Informe a linha do Ataque (1-3): ");
+			
+			leia(a);
+			
+			escolha (a)
+			caso 1 
+				a = 0;
+				interrompa;
+			caso 2
+				a = 3;
+				interrompa;
+			caso 3
+				a = 6;
+				interrompa;
+			outroCaso
+				isValido = falso;
+				escreva("Valor Inválido. ");
+			fimEscolha
+		enquanto(nao isValido);
+		
+		faca
+			isValido = verdadeiro;
+			escreva("Informe a coluna do Ataque (1-3): ");
+			
+			leia(a2);
+			
+			escolha (a2)
+			caso 1 
+				interrompa;
+			caso 2
+				a = a + 1;
+				interrompa;
+			caso 3
+				a = a + 2;
+				interrompa;
+			outroCaso
+				isValido = falso;
+				escreva("Valor Inválido. ");
+			fimEscolha
+		enquanto(nao isValido);
+		
+		ataque(tabuleiro, exib, a, pontos);
+		
+		se(pontos == totalInimigos)entao
+			isOver=verdadeiro;
+		fimSe	
+		
+	enquanto(nao isOver);
+
+	
+	
+	//Finaliza o Jogo
+
+	limpaTela();
+	
+	escreval("   BOOM!!! VOCÊ ACABOU COM TODOS OS ",pontos," BASTARDOS");
+	escreval("                             ____ ");
+	escreval("                     __,-~~/~    `---. ");
+	escreval("                   _/_,---(      ,    ) ");
+	escreval("               __ /        <    /   )  \___ ");
+	escreval("- ------===;;;'====------------------===;;;===----- -  - ");
+	escreval("                  \/  ~'~'~'~'~'~\~'~)~'/ ");
+	escreval("                  (_ (   \  (     >    \) ");
+	escreval("                   \_( _ <         >_>' ");
+	escreval("                      ~ `-i' ::>|--' ");
+	escreval("                          I;|.|.| ");
+	escreval("                         <|i::|i|`. ");
+	escreval("                        (` ^''`-' ') ");
+	escreval("----------------------------------------------------------- ");
+	escreval("Arte : Nuclear Explosion Mushroom.  by Bill March ");
+
+
+fimPrincipal
+
+procedimento constroiTela(texto x[], texto nome, inteiro quant)
+	
+	escreval("             Batalha Naval              Jogador: ",nome);
+	escreval("                                        Acertos: ",quant);
+	escreval("           ╔═══╦═══╦═══╦═══╗");
+	escreval("           ║ X ║ 1 ║ 2 ║ 3 ║");
+	escreval("           ╠═══╬═══╬═══╬═══╣");
+	escreval("           ║ 1 ║",x[0],"║",x[1],"║",x[2],"║");
+	escreval("           ╠═══╬═══╬═══╬═══╣");
+	escreval("           ║ 2 ║",x[3],"║",x[4],"║",x[5],"║");
+	escreval("           ╠═══╬═══╬═══╬═══╣");
+	escreval("           ║ 3 ║",x[6],"║",x[7],"║",x[8],"║");
+	escreval("           ╚═══╩═══╩═══╩═══╝");
+	escreval("                ('(_,( ) ");
+	escreval("                 _   `_' ");
+	escreval("              __|_|__|_|_ ");
+	escreval("            _|___________|__ ");
+	escreval("           |o o o o o o o o/ ");
+	escreval("          ~'`~'`~'`~'`~'`~'`~ ");
+fimProcedimento
+
+funcao logico ataque (inteiro tab[], texto tela[], inteiro posicao, ref inteiro pont)
+	inteiro pos;
+	pos = tab[posicao];
+	
+	escolha (pos)
+	caso 0
+		tela[posicao]=("~~~");
+		retorna falso;
+	caso 1
+		tela[posicao]=("~X~");
+		tab[posicao] = -1;
+		pont = pont + 1;
+		retorna verdadeiro;
+	caso -1
+		escreval("Posição já atacada!!");
+		retorna falso;
+	fimEscolha
+
+
+fimFuncao
